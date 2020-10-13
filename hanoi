@@ -1,0 +1,26 @@
+import queue
+def process(i:int):
+    q1 = queue.Queue()
+    q2 = queue.Queue()
+    q2.put((i,"a","b","c"))
+    while not q2.empty():
+        tmp = q2.get()
+        q1.put(tmp)
+        if tmp[0] > 1:
+            q2.put((tmp[0]-1,tmp[1],tmp[3],tmp[2]))
+            q2.put((tmp[0]-1,tmp[2],tmp[1],tmp[3]))
+    for j in range(0,i):
+        l1 = (((2**(i-1))*9-(2**j)*9))//(2**(j+1))
+        l2 = (((2**(i-1))*9-(2**j)*9))//(2**j)
+        s = "%*s(%d,%s,%s,%s)"%(l1,"",*q1.get())
+        for _ in range(0,2**j-1):
+            s+="%*s(%d,%s,%s,%s)"%(l2,"",*q1.get())
+        print(s)
+def hanoi(i:int,a:str,b:str,c:str):
+    if i >= 1:
+        hanoi(i-1,a,c,b)
+        print("%s->%s"%(a,c))
+        hanoi(i-1,b,a,c)
+
+hanoi(3,"a","b","c")        
+process(3)
